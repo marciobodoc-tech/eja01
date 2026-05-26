@@ -197,7 +197,7 @@ ul { list-style: none; }
   .activities-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (min-width: 900px) {
-  .activities-grid { grid-template-columns: repeat(5, 1fr); }
+  .activities-grid { grid-template-columns: repeat(6, 1fr); }
 }
 
 .act-btn {
@@ -986,6 +986,10 @@ ul { list-style: none; }
       <span class="act-emoji">🧩</span>
       Sílabas
     </button>
+    <button class="act-btn" onclick="showSection('erros', this)">
+      <span class="act-emoji">👀</span>
+      7 Erros
+    </button>
     <button class="act-btn" onclick="showSection('reescrever', this)">
       <span class="act-emoji">✏️</span>
       Reescrever
@@ -1012,7 +1016,7 @@ ul { list-style: none; }
       <span class="section-icon">🔍</span>
       <div>
         <h2 class="section-title">Caça-Palavras</h2>
-        <p class="section-subtitle">Vários temas de caça-palavras para treinar leitura e atenção.</p>
+        <p class="section-subtitle">Encontre as palavras escondidas na tabela!</p>
       </div>
     </div>
 
@@ -1028,14 +1032,14 @@ ul { list-style: none; }
         </div>
         <div class="word-list">
           <h3>Palavras para encontrar:</h3>
-          <p id="ws-set-name" style="font-family:var(--font-display);font-weight:800;color:var(--sesc-gold-dark);margin-bottom:var(--space-3)"></p><div id="ws-word-list"></div>
+          <div id="ws-word-list"></div>
         </div>
       </div>
 
       <div id="feedback-caca" class="feedback"></div>
 
       <div class="next-row" style="margin-top:var(--space-4)">
-        <button class="btn btn-gold" onclick="nextWordSearchSet()">🔄 Novo Caça-Palavras</button>
+        <button class="btn btn-gold" onclick="resetWordSearch()">🔄 Novo Jogo</button>
         <button class="btn btn-primary" onclick="showSection('silabas', document.querySelectorAll('.act-btn')[1])">Próxima atividade →</button>
       </div>
     </div>
@@ -1047,7 +1051,7 @@ ul { list-style: none; }
       <span class="section-icon">🧩</span>
       <div>
         <h2 class="section-title">Monte a Palavra</h2>
-        <p class="section-subtitle">50 palavras simples para montar tocando nas sílabas.</p>
+        <p class="section-subtitle">Toque nas sílabas para montar a palavra correta!</p>
       </div>
     </div>
 
@@ -1060,7 +1064,7 @@ ul { list-style: none; }
       <div class="progress-wrap">
         <div class="progress-label">
           <span>Progresso</span>
-          <span id="sil-progress-text">0 / 50</span>
+          <span id="sil-progress-text">0 / 8</span>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="sil-progress-fill" style="width:0%"></div></div>
       </div>
@@ -1082,13 +1086,55 @@ ul { list-style: none; }
     </div>
   </section>
 
+  <!-- ==================== 3. JOGO DOS 7 ERROS ==================== -->
+  <section class="activity-section" id="sec-erros" aria-label="Jogo dos 7 erros">
+    <div class="section-header">
+      <span class="section-icon">👀</span>
+      <div>
+        <h2 class="section-title">Jogo dos 7 Erros</h2>
+        <p class="section-subtitle">As duas imagens parecem iguais, mas têm 7 diferenças!</p>
+      </div>
+    </div>
+
+    <div class="narration-bar">
+      <button class="play-btn" id="play-erros" onclick="narrate('erros')" aria-label="Ouvir instrução">▶</button>
+      <p class="narration-text">Olhe bem as duas imagens. Toque nas partes diferentes que você encontrar!</p>
+    </div>
+
+    <div class="card">
+      <div class="errors-score-bar">
+        <span>Encontrados:</span>
+        <div class="errors-dots" id="error-dots"></div>
+        <span id="error-count">0 / 7</span>
+      </div>
+
+      <div class="errors-images">
+        <div class="errors-image-wrap" id="img-left">
+          <span class="img-label">Imagem 1</span>
+          <canvas id="canvas-left" width="320" height="240"></canvas>
+        </div>
+        <div class="errors-image-wrap" id="img-right">
+          <span class="img-label">Imagem 2</span>
+          <canvas id="canvas-right" width="320" height="240"></canvas>
+        </div>
+      </div>
+
+      <div id="feedback-erros" class="feedback"></div>
+
+      <div class="next-row">
+        <button class="btn btn-gold" onclick="resetErrorsGame()">🔄 Novo Jogo</button>
+        <button class="btn btn-primary" onclick="showSection('reescrever', document.querySelectorAll('.act-btn')[3])">Próxima atividade →</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ==================== 4. REESCREVER PALAVRAS ==================== -->
   <section class="activity-section" id="sec-reescrever" aria-label="Reescrever palavras">
     <div class="section-header">
       <span class="section-icon">✏️</span>
       <div>
         <h2 class="section-title">Reescrever a Palavra</h2>
-        <p class="section-subtitle">50 palavras para escrever com apoio visual e teclado virtual.</p>
+        <p class="section-subtitle">Veja a imagem e escreva o nome correto!</p>
       </div>
     </div>
 
@@ -1101,7 +1147,7 @@ ul { list-style: none; }
       <div class="progress-wrap">
         <div class="progress-label">
           <span>Progresso</span>
-          <span id="rew-progress-text">0 / 50</span>
+          <span id="rew-progress-text">0 / 10</span>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="rew-progress-fill" style="width:0%"></div></div>
       </div>
@@ -1167,7 +1213,7 @@ ul { list-style: none; }
       <div class="progress-wrap">
         <div class="progress-label">
           <span>Progresso</span>
-          <span id="vow-progress-text">0 / 50</span>
+          <span id="vow-progress-text">0 / 10</span>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="vow-progress-fill" style="width:0%"></div></div>
       </div>
@@ -1235,6 +1281,7 @@ if (window.speechSynthesis) {
 const narrations = {
   caca: 'Caça-palavras! Toque nas letras para selecionar as palavras que estão na lista. Procure da esquerda para a direita, ou de cima para baixo!',
   silabas: 'Monte a palavra! Veja a figura e toque nas sílabas na ordem certa para formar a palavra correta.',
+  erros: 'Jogo dos sete erros! Olhe bem as duas imagens ao lado. Toque nas partes que são diferentes na segunda imagem!',
   reescrever: 'Reescrever! Olhe a figura e toque nas letras para escrever o nome. Depois toque em verificar para saber se acertou!',
   leitura: 'Leitura de palavras! Toque em cada figura para ouvir o nome. Veja como a palavra é escrita e suas sílabas.',
   vogais: 'Encontre as vogais! Olhe a palavra e toque em todas as vogais que você vê nela. As vogais são: A, E, I, O, U!'
@@ -1299,34 +1346,15 @@ function setFeedback(id, ok, msg) {
 // ============================================================
 // 1. CAÇA-PALAVRAS
 // ============================================================
-const wsSets = [
-  { name: 'Animais e casa', words: [
-    { word: 'CASA', emoji: '🏠' }, { word: 'BOLA', emoji: '⚽' }, { word: 'GATO', emoji: '🐱' },
-    { word: 'PATO', emoji: '🦆' }, { word: 'MALA', emoji: '🧳' }, { word: 'FACA', emoji: '🔪' }, { word: 'CAMA', emoji: '🛏️' }
-  ]},
-  { name: 'Comidas', words: [
-    { word: 'BOLO', emoji: '🍰' }, { word: 'SUCO', emoji: '🧃' }, { word: 'UVA', emoji: '🍇' },
-    { word: 'CAFE', emoji: '☕' }, { word: 'PERA', emoji: '🍐' }, { word: 'MILHO', emoji: '🌽' }, { word: 'MEL', emoji: '🍯' }
-  ]},
-  { name: 'Objetos', words: [
-    { word: 'LAPIS', emoji: '✏️' }, { word: 'LIVRO', emoji: '📘' }, { word: 'MESA', emoji: '🪑' },
-    { word: 'COPO', emoji: '🥤' }, { word: 'PRATO', emoji: '🍽️' }, { word: 'BOLSA', emoji: '👜' }, { word: 'PENTE', emoji: '🪮' }
-  ]},
-  { name: 'Natureza', words: [
-    { word: 'SOL', emoji: '☀️' }, { word: 'LUA', emoji: '🌙' }, { word: 'FLOR', emoji: '🌸' },
-    { word: 'RIO', emoji: '🏞️' }, { word: 'NUVEM', emoji: '☁️' }, { word: 'VENTO', emoji: '💨' }, { word: 'MAR', emoji: '🌊' }
-  ]},
-  { name: 'Corpo', words: [
-    { word: 'MAO', emoji: '✋' }, { word: 'PE', emoji: '🦶' }, { word: 'BOCA', emoji: '👄' },
-    { word: 'NARIZ', emoji: '👃' }, { word: 'OLHO', emoji: '👁️' }, { word: 'ROSTO', emoji: '🙂' }, { word: 'DEDO', emoji: '☝️' }
-  ]},
-  { name: 'Transporte', words: [
-    { word: 'CARRO', emoji: '🚗' }, { word: 'ONIBUS', emoji: '🚌' }, { word: 'TREM', emoji: '🚆' },
-    { word: 'MOTO', emoji: '🏍️' }, { word: 'BARCO', emoji: '🚤' }, { word: 'VAN', emoji: '🚐' }, { word: 'BIKE', emoji: '🚲' }
-  ]}
+const wsWords = [
+  { word: 'CASA',   emoji: '🏠' },
+  { word: 'BOLA',   emoji: '⚽' },
+  { word: 'GATO',   emoji: '🐱' },
+  { word: 'PATO',   emoji: '🦆' },
+  { word: 'MALA',   emoji: '🧳' },
+  { word: 'FACA',   emoji: '🔪' },
+  { word: 'CAMA',   emoji: '🛏️' },
 ];
-let wsSetIndex = 0;
-function getCurrentWsWords(){ return wsSets[wsSetIndex].words; }
 
 const GRID_SIZE = 9;
 let wsGrid = [];
@@ -1350,7 +1378,7 @@ function generateWsGrid() {
 
   // Place words
   const placed = [];
-  for (const item of getCurrentWsWords()) {
+  for (const item of wsWords) {
     let ok = false, tries = 0;
     while (!ok && tries < 200) {
       tries++;
@@ -1474,14 +1502,13 @@ function isFoundCell(r, c) {
 }
 
 function checkWsWord(word) {
-  const currentWords = getCurrentWsWords();
-  const match = currentWords.find(w => w.word === word || w.word === word.split('').reverse().join(''));
+  const match = wsWords.find(w => w.word === word || w.word === word.split('').reverse().join(''));
   if (match && !wsFound.includes(match.word)) {
     wsFound.push(match.word);
     renderWsWordList();
     highlightSelected();
     speak(match.word.toLowerCase(), 0.8);
-    if (wsFound.length === getCurrentWsWords().length) {
+    if (wsFound.length === wsWords.length) {
       setTimeout(() => celebrate('🏆', 'Muito bem!', 'Você encontrou todas as palavras!'), 600);
     }
   }
@@ -1489,9 +1516,7 @@ function checkWsWord(word) {
 
 function renderWsWordList() {
   const container = document.getElementById('ws-word-list');
-  document.getElementById('ws-set-name').textContent = 'Tema: ' + wsSets[wsSetIndex].name;
-  const currentWords = getCurrentWsWords();
-  container.innerHTML = currentWords.map(w => `
+  container.innerHTML = wsWords.map(w => `
     <div class="word-item ${wsFound.includes(w.word) ? 'found' : ''}">
       <span class="word-emoji">${w.emoji}</span>
       <span>${w.word}</span>
@@ -1499,417 +1524,18 @@ function renderWsWordList() {
   `).join('');
 }
 
-function nextWordSearchSet() {
-  wsSetIndex = (wsSetIndex + 1) % wsSets.length;
-  resetWordSearch();
-  speak('Novo caça palavras. Tema: ' + wsSets[wsSetIndex].name, 0.82);
-}
-
-
 // ============================================================
 // 2. SÍLABAS
 // ============================================================
 const syllableWords = [
-  {
-    "word": "GATO",
-    "emoji": "🐱",
-    "syllables": [
-      "GA",
-      "TO"
-    ]
-  },
-  {
-    "word": "BOLA",
-    "emoji": "⚽",
-    "syllables": [
-      "BO",
-      "LA"
-    ]
-  },
-  {
-    "word": "CASA",
-    "emoji": "🏠",
-    "syllables": [
-      "CA",
-      "SA"
-    ]
-  },
-  {
-    "word": "PATO",
-    "emoji": "🦆",
-    "syllables": [
-      "PA",
-      "TO"
-    ]
-  },
-  {
-    "word": "MACA",
-    "emoji": "🍎",
-    "syllables": [
-      "MA",
-      "CA"
-    ]
-  },
-  {
-    "word": "SAPO",
-    "emoji": "🐸",
-    "syllables": [
-      "SA",
-      "PO"
-    ]
-  },
-  {
-    "word": "MULA",
-    "emoji": "🐴",
-    "syllables": [
-      "MU",
-      "LA"
-    ]
-  },
-  {
-    "word": "FADA",
-    "emoji": "🧚",
-    "syllables": [
-      "FA",
-      "DA"
-    ]
-  },
-  {
-    "word": "BOCA",
-    "emoji": "👄",
-    "syllables": [
-      "BO",
-      "CA"
-    ]
-  },
-  {
-    "word": "MESA",
-    "emoji": "🪑",
-    "syllables": [
-      "ME",
-      "SA"
-    ]
-  },
-  {
-    "word": "DEDO",
-    "emoji": "☝️",
-    "syllables": [
-      "DE",
-      "DO"
-    ]
-  },
-  {
-    "word": "LOBO",
-    "emoji": "🐺",
-    "syllables": [
-      "LO",
-      "BO"
-    ]
-  },
-  {
-    "word": "LATA",
-    "emoji": "🥫",
-    "syllables": [
-      "LA",
-      "TA"
-    ]
-  },
-  {
-    "word": "BOTA",
-    "emoji": "🥾",
-    "syllables": [
-      "BO",
-      "TA"
-    ]
-  },
-  {
-    "word": "VELA",
-    "emoji": "🕯️",
-    "syllables": [
-      "VE",
-      "LA"
-    ]
-  },
-  {
-    "word": "RATO",
-    "emoji": "🐭",
-    "syllables": [
-      "RA",
-      "TO"
-    ]
-  },
-  {
-    "word": "PIPA",
-    "emoji": "🪁",
-    "syllables": [
-      "PI",
-      "PA"
-    ]
-  },
-  {
-    "word": "BEBE",
-    "emoji": "🍼",
-    "syllables": [
-      "BE",
-      "BE"
-    ]
-  },
-  {
-    "word": "FOTO",
-    "emoji": "📷",
-    "syllables": [
-      "FO",
-      "TO"
-    ]
-  },
-  {
-    "word": "LUPA",
-    "emoji": "🔎",
-    "syllables": [
-      "LU",
-      "PA"
-    ]
-  },
-  {
-    "word": "MALA",
-    "emoji": "🧳",
-    "syllables": [
-      "MA",
-      "LA"
-    ]
-  },
-  {
-    "word": "FACA",
-    "emoji": "🔪",
-    "syllables": [
-      "FA",
-      "CA"
-    ]
-  },
-  {
-    "word": "CAMA",
-    "emoji": "🛏️",
-    "syllables": [
-      "CA",
-      "MA"
-    ]
-  },
-  {
-    "word": "FOCA",
-    "emoji": "🦭",
-    "syllables": [
-      "FO",
-      "CA"
-    ]
-  },
-  {
-    "word": "CABO",
-    "emoji": "🔌",
-    "syllables": [
-      "CA",
-      "BO"
-    ]
-  },
-  {
-    "word": "DADO",
-    "emoji": "🎲",
-    "syllables": [
-      "DA",
-      "DO"
-    ]
-  },
-  {
-    "word": "PENA",
-    "emoji": "🪶",
-    "syllables": [
-      "PE",
-      "NA"
-    ]
-  },
-  {
-    "word": "SINO",
-    "emoji": "🔔",
-    "syllables": [
-      "SI",
-      "NO"
-    ]
-  },
-  {
-    "word": "TATU",
-    "emoji": "🦔",
-    "syllables": [
-      "TA",
-      "TU"
-    ]
-  },
-  {
-    "word": "GALO",
-    "emoji": "🐓",
-    "syllables": [
-      "GA",
-      "LO"
-    ]
-  },
-  {
-    "word": "CANO",
-    "emoji": "🛶",
-    "syllables": [
-      "CA",
-      "NO"
-    ]
-  },
-  {
-    "word": "BONE",
-    "emoji": "🧢",
-    "syllables": [
-      "BO",
-      "NE"
-    ]
-  },
-  {
-    "word": "MOTO",
-    "emoji": "🏍️",
-    "syllables": [
-      "MO",
-      "TO"
-    ]
-  },
-  {
-    "word": "RODA",
-    "emoji": "🛞",
-    "syllables": [
-      "RO",
-      "DA"
-    ]
-  },
-  {
-    "word": "BULE",
-    "emoji": "🫖",
-    "syllables": [
-      "BU",
-      "LE"
-    ]
-  },
-  {
-    "word": "LIMA",
-    "emoji": "🍋",
-    "syllables": [
-      "LI",
-      "MA"
-    ]
-  },
-  {
-    "word": "TELA",
-    "emoji": "🖥️",
-    "syllables": [
-      "TE",
-      "LA"
-    ]
-  },
-  {
-    "word": "POTE",
-    "emoji": "🏺",
-    "syllables": [
-      "PO",
-      "TE"
-    ]
-  },
-  {
-    "word": "COPO",
-    "emoji": "🥤",
-    "syllables": [
-      "CO",
-      "PO"
-    ]
-  },
-  {
-    "word": "BODE",
-    "emoji": "🐐",
-    "syllables": [
-      "BO",
-      "DE"
-    ]
-  },
-  {
-    "word": "GOMA",
-    "emoji": "🍬",
-    "syllables": [
-      "GO",
-      "MA"
-    ]
-  },
-  {
-    "word": "FUBA",
-    "emoji": "🌽",
-    "syllables": [
-      "FU",
-      "BA"
-    ]
-  },
-  {
-    "word": "BALA",
-    "emoji": "🍬",
-    "syllables": [
-      "BA",
-      "LA"
-    ]
-  },
-  {
-    "word": "DONA",
-    "emoji": "👵",
-    "syllables": [
-      "DO",
-      "NA"
-    ]
-  },
-  {
-    "word": "CERA",
-    "emoji": "🕯️",
-    "syllables": [
-      "CE",
-      "RA"
-    ]
-  },
-  {
-    "word": "MAPA",
-    "emoji": "🗺️",
-    "syllables": [
-      "MA",
-      "PA"
-    ]
-  },
-  {
-    "word": "CORA",
-    "emoji": "❤️",
-    "syllables": [
-      "CO",
-      "RA"
-    ]
-  },
-  {
-    "word": "LONA",
-    "emoji": "⛺",
-    "syllables": [
-      "LO",
-      "NA"
-    ]
-  },
-  {
-    "word": "JACA",
-    "emoji": "🍈",
-    "syllables": [
-      "JA",
-      "CA"
-    ]
-  },
-  {
-    "word": "PANO",
-    "emoji": "🧻",
-    "syllables": [
-      "PA",
-      "NO"
-    ]
-  }
+  { word: 'GATO',   emoji: '🐱', syllables: ['GA', 'TO'] },
+  { word: 'BOLA',   emoji: '⚽', syllables: ['BO', 'LA'] },
+  { word: 'CASA',   emoji: '🏠', syllables: ['CA', 'SA'] },
+  { word: 'PATO',   emoji: '🦆', syllables: ['PA', 'TO'] },
+  { word: 'MACA',   emoji: '🍎', syllables: ['MA', 'ÇÃ'] },
+  { word: 'SAPO',   emoji: '🐸', syllables: ['SA', 'PO'] },
+  { word: 'MULA',   emoji: '🐴', syllables: ['MU', 'LA'] },
+  { word: 'FADA',   emoji: '🧚', syllables: ['FA', 'DA'] },
 ];
 
 let silIndex = 0, silFilled = [], silScore = 0;
@@ -2008,259 +1634,166 @@ function updateSilProgress() {
 }
 
 // ============================================================
+// 3. JOGO DOS 7 ERROS
+// ============================================================
+const errorScenes = [
+  {
+    name: 'Fazenda',
+    draw: (ctx, w, h, isRight) => {
+      // Sky
+      ctx.fillStyle = '#87CEEB'; ctx.fillRect(0, 0, w, h);
+      // Ground
+      ctx.fillStyle = '#90EE90'; ctx.fillRect(0, h*0.6, w, h*0.4);
+      // Sun
+      ctx.fillStyle = isRight ? '#FF6600' : '#FFD700'; // error 1: sun color
+      ctx.beginPath(); ctx.arc(w*0.85, h*0.15, h*0.12, 0, Math.PI*2); ctx.fill();
+      // House body
+      ctx.fillStyle = '#F4A460'; ctx.fillRect(w*0.3, h*0.35, w*0.4, h*0.35);
+      // Roof
+      ctx.fillStyle = '#8B0000';
+      ctx.beginPath(); ctx.moveTo(w*0.25, h*0.35); ctx.lineTo(w*0.5, h*0.08); ctx.lineTo(w*0.75, h*0.35); ctx.fill();
+      // Door
+      ctx.fillStyle = '#8B4513'; ctx.fillRect(w*0.44, h*0.52, w*0.12, w*0.14);
+      // Windows
+      ctx.fillStyle = '#87CEEB';
+      if (!isRight) { // error 2: missing window on right side
+        ctx.fillRect(w*0.35, h*0.42, w*0.1, w*0.07);
+      }
+      ctx.fillRect(w*0.55, h*0.42, w*0.1, w*0.07);
+      // Tree
+      ctx.fillStyle = '#654321'; ctx.fillRect(w*0.1, h*0.55, w*0.05, h*0.15);
+      ctx.fillStyle = isRight ? '#FF8C00' : '#228B22'; // error 3: tree color
+      ctx.beginPath(); ctx.arc(w*0.125, h*0.48, h*0.12, 0, Math.PI*2); ctx.fill();
+      // Fence
+      ctx.strokeStyle = '#A0522D'; ctx.lineWidth = 3;
+      for (let i = 0.2; i < 0.85; i += 0.08) {
+        ctx.beginPath(); ctx.moveTo(w*i, h*0.62); ctx.lineTo(w*i, h*0.72); ctx.stroke();
+      }
+      // Fence rails - error 4: missing top rail on right image
+      if (!isRight) {
+        ctx.beginPath(); ctx.moveTo(w*0.2, h*0.65); ctx.lineTo(w*0.85, h*0.65); ctx.stroke();
+      }
+      ctx.beginPath(); ctx.moveTo(w*0.2, h*0.70); ctx.lineTo(w*0.85, h*0.70); ctx.stroke();
+      // Cloud
+      ctx.fillStyle = 'white';
+      const cx = isRight ? w*0.35 : w*0.25; // error 5: cloud position
+      ctx.beginPath(); ctx.arc(cx, h*0.12, h*0.07, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(cx+h*0.06, h*0.10, h*0.055, 0, Math.PI*2); ctx.fill();
+      // Bird
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
+      if (!isRight) { // error 6: extra bird
+        ctx.beginPath(); ctx.arc(w*0.6, h*0.05, 5, Math.PI, 0); ctx.stroke();
+        ctx.beginPath(); ctx.arc(w*0.63, h*0.05, 5, Math.PI, 0); ctx.stroke();
+      }
+      // Chimney
+      ctx.fillStyle = isRight ? '#DDD' : '#8B0000'; // error 7: chimney color
+      ctx.fillRect(w*0.6, h*0.12, w*0.05, h*0.14);
+    }
+  }
+];
+
+// Hotspots for the differences on the RIGHT image
+const errorHotspots = [
+  { x: 0.85, y: 0.15, r: 0.08, label: 'cor do sol' },
+  { x: 0.35, y: 0.42, r: 0.07, label: 'janela' },
+  { x: 0.125, y: 0.48, r: 0.08, label: 'cor da árvore' },
+  { x: 0.5, y: 0.65, r: 0.06, label: 'cerca' },
+  { x: 0.35, y: 0.12, r: 0.07, label: 'nuvem' },
+  { x: 0.61, y: 0.05, r: 0.06, label: 'pássaro' },
+  { x: 0.625, y: 0.16, r: 0.06, label: 'chaminé' },
+];
+
+let errorsFound = [];
+let currentScene = 0;
+
+function resetErrorsGame() {
+  errorsFound = [];
+  updateErrorDots();
+  document.getElementById('error-count').textContent = '0 / 7';
+  document.getElementById('feedback-erros').classList.remove('visible');
+  // Remove markers
+  document.querySelectorAll('.error-marker').forEach(m => m.remove());
+  drawScene();
+}
+
+function drawScene() {
+  const scene = errorScenes[currentScene % errorScenes.length];
+  ['left','right'].forEach(side => {
+    const canvas = document.getElementById('canvas-' + side);
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0,0,w,h);
+    scene.draw(ctx, w, h, side === 'right');
+  });
+}
+
+function setupErrorHandlers() {
+  const rightWrap = document.getElementById('img-right');
+  const canvas = document.getElementById('canvas-right');
+
+  function handleTap(e) {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    let cx, cy;
+    if (e.touches) {
+      cx = e.touches[0].clientX - rect.left;
+      cy = e.touches[0].clientY - rect.top;
+    } else {
+      cx = e.clientX - rect.left;
+      cy = e.clientY - rect.top;
+    }
+    const px = cx / rect.width;
+    const py = cy / rect.height;
+
+    for (let i = 0; i < errorHotspots.length; i++) {
+      if (errorsFound.includes(i)) continue;
+      const h = errorHotspots[i];
+      const dist = Math.sqrt((px-h.x)**2 + (py-h.y)**2);
+      if (dist < h.r + 0.04) {
+        errorsFound.push(i);
+        updateErrorDots();
+        // Add marker on right image
+        const marker = document.createElement('div');
+        marker.className = 'error-marker';
+        marker.style.left = (h.x * 100) + '%';
+        marker.style.top = (h.y * 100) + '%';
+        rightWrap.appendChild(marker);
+        speak('Encontrou! ' + h.label, 0.9);
+        if (errorsFound.length === 7) {
+          setTimeout(() => celebrate('👀', 'Excelente!', 'Você encontrou todos os 7 erros!'), 600);
+        }
+        return;
+      }
+    }
+    speak('Continue procurando!', 0.9);
+  }
+
+  canvas.addEventListener('touchstart', handleTap, {passive:false});
+  canvas.addEventListener('click', handleTap);
+}
+
+function updateErrorDots() {
+  const container = document.getElementById('error-dots');
+  container.innerHTML = Array.from({length:7}, (_,i) =>
+    `<div class="error-dot ${errorsFound.includes(i) ? 'found' : ''}"></div>`
+  ).join('');
+  document.getElementById('error-count').textContent = errorsFound.length + ' / 7';
+}
+
+// ============================================================
 // 4. REESCREVER PALAVRAS
 // ============================================================
 const rewriteWords = [
-  {
-    "word": "GATO",
-    "emoji": "🐱",
-    "hint": "G _ T _"
-  },
-  {
-    "word": "BOLA",
-    "emoji": "⚽",
-    "hint": "B _ L _"
-  },
-  {
-    "word": "CASA",
-    "emoji": "🏠",
-    "hint": "C _ S _"
-  },
-  {
-    "word": "PATO",
-    "emoji": "🦆",
-    "hint": "P _ T _"
-  },
-  {
-    "word": "MACA",
-    "emoji": "🍎",
-    "hint": "M _ C _"
-  },
-  {
-    "word": "SAPO",
-    "emoji": "🐸",
-    "hint": "S _ P _"
-  },
-  {
-    "word": "FACA",
-    "emoji": "🔪",
-    "hint": "F _ C _"
-  },
-  {
-    "word": "CAMA",
-    "emoji": "🛏️",
-    "hint": "C _ M _"
-  },
-  {
-    "word": "LOBO",
-    "emoji": "🐺",
-    "hint": "L _ B _"
-  },
-  {
-    "word": "MULA",
-    "emoji": "🐴",
-    "hint": "M _ L _"
-  },
-  {
-    "word": "BOCA",
-    "emoji": "👄",
-    "hint": "B _ C _"
-  },
-  {
-    "word": "MESA",
-    "emoji": "🪑",
-    "hint": "M _ S _"
-  },
-  {
-    "word": "DEDO",
-    "emoji": "☝️",
-    "hint": "D _ D _"
-  },
-  {
-    "word": "LATA",
-    "emoji": "🥫",
-    "hint": "L _ T _"
-  },
-  {
-    "word": "BOTA",
-    "emoji": "🥾",
-    "hint": "B _ T _"
-  },
-  {
-    "word": "VELA",
-    "emoji": "🕯️",
-    "hint": "V _ L _"
-  },
-  {
-    "word": "RATO",
-    "emoji": "🐭",
-    "hint": "R _ T _"
-  },
-  {
-    "word": "PIPA",
-    "emoji": "🪁",
-    "hint": "P _ P _"
-  },
-  {
-    "word": "BEBE",
-    "emoji": "🍼",
-    "hint": "B _ B _"
-  },
-  {
-    "word": "FOTO",
-    "emoji": "📷",
-    "hint": "F _ T _"
-  },
-  {
-    "word": "LUPA",
-    "emoji": "🔎",
-    "hint": "L _ P _"
-  },
-  {
-    "word": "MALA",
-    "emoji": "🧳",
-    "hint": "M _ L _"
-  },
-  {
-    "word": "FOCA",
-    "emoji": "🦭",
-    "hint": "F _ C _"
-  },
-  {
-    "word": "CABO",
-    "emoji": "🔌",
-    "hint": "C _ B _"
-  },
-  {
-    "word": "DADO",
-    "emoji": "🎲",
-    "hint": "D _ D _"
-  },
-  {
-    "word": "PENA",
-    "emoji": "🪶",
-    "hint": "P _ N _"
-  },
-  {
-    "word": "SINO",
-    "emoji": "🔔",
-    "hint": "S _ N _"
-  },
-  {
-    "word": "TATU",
-    "emoji": "🦔",
-    "hint": "T _ T _"
-  },
-  {
-    "word": "GALO",
-    "emoji": "🐓",
-    "hint": "G _ L _"
-  },
-  {
-    "word": "CANO",
-    "emoji": "🛶",
-    "hint": "C _ N _"
-  },
-  {
-    "word": "BONE",
-    "emoji": "🧢",
-    "hint": "B _ N _"
-  },
-  {
-    "word": "MOTO",
-    "emoji": "🏍️",
-    "hint": "M _ T _"
-  },
-  {
-    "word": "RODA",
-    "emoji": "🛞",
-    "hint": "R _ D _"
-  },
-  {
-    "word": "BULE",
-    "emoji": "🫖",
-    "hint": "B _ L _"
-  },
-  {
-    "word": "LIMA",
-    "emoji": "🍋",
-    "hint": "L _ M _"
-  },
-  {
-    "word": "TELA",
-    "emoji": "🖥️",
-    "hint": "T _ L _"
-  },
-  {
-    "word": "POTE",
-    "emoji": "🏺",
-    "hint": "P _ T _"
-  },
-  {
-    "word": "COPO",
-    "emoji": "🥤",
-    "hint": "C _ P _"
-  },
-  {
-    "word": "BODE",
-    "emoji": "🐐",
-    "hint": "B _ D _"
-  },
-  {
-    "word": "GOMA",
-    "emoji": "🍬",
-    "hint": "G _ M _"
-  },
-  {
-    "word": "FUBA",
-    "emoji": "🌽",
-    "hint": "F _ B _"
-  },
-  {
-    "word": "BALA",
-    "emoji": "🍬",
-    "hint": "B _ L _"
-  },
-  {
-    "word": "DONA",
-    "emoji": "👵",
-    "hint": "D _ N _"
-  },
-  {
-    "word": "CERA",
-    "emoji": "🕯️",
-    "hint": "C _ R _"
-  },
-  {
-    "word": "MAPA",
-    "emoji": "🗺️",
-    "hint": "M _ P _"
-  },
-  {
-    "word": "LONA",
-    "emoji": "⛺",
-    "hint": "L _ N _"
-  },
-  {
-    "word": "JACA",
-    "emoji": "🍈",
-    "hint": "J _ C _"
-  },
-  {
-    "word": "PANO",
-    "emoji": "🧻",
-    "hint": "P _ N _"
-  },
-  {
-    "word": "VASO",
-    "emoji": "🏺",
-    "hint": "V _ S _"
-  },
-  {
-    "word": "RUA",
-    "emoji": "🛣️",
-    "hint": "R _ _"
-  }
+  { word: 'GATO',   emoji: '🐱', hint: 'G _ T _' },
+  { word: 'BOLA',   emoji: '⚽', hint: 'B _ L _' },
+  { word: 'CASA',   emoji: '🏠', hint: 'C _ S _' },
+  { word: 'PATO',   emoji: '🦆', hint: 'P _ T _' },
+  { word: 'MACA',   emoji: '🍎', hint: 'M _ Ç _' },
+  { word: 'SAPO',   emoji: '🐸', hint: 'S _ P _' },
+  { word: 'FACA',   emoji: '🔪', hint: 'F _ C _' },
+  { word: 'CAMA',   emoji: '🛏️', hint: 'C _ M _' },
+  { word: 'LOBO',   emoji: '🐺', hint: 'L _ B _' },
+  { word: 'MULA',   emoji: '🐴', hint: 'M _ L _' },
 ];
 
 let rewIndex = 0, rewScore = 0;
@@ -2463,6 +1996,9 @@ function updateVowProgress() {
 document.addEventListener('DOMContentLoaded', () => {
   resetWordSearch();
   loadSyllableWord();
+  drawScene();
+  setupErrorHandlers();
+  updateErrorDots();
   buildKeyboard();
   loadRewriteWord();
   buildReadingCards();
